@@ -42,4 +42,8 @@ $lang = array_merge($lang, array(
 		2 => 'Mostrando las TOP %d etiquetas.',
 	),
 
+	'RH_TOPICTAGS_SELECTED'			=> 'Etiquetas seleccionadas',
+	'RH_TOPICTAGS_REMOVE_TAG'		=> 'Quitar la etiqueta %s de esta búsqueda',
+	'RH_TOPICTAGS_NARROW_BY'		=> 'Filtrar por otra etiqueta',
+	'RH_TOPICTAGS_ADD_TAG'			=> 'Requerir también la etiqueta %s',
 ));

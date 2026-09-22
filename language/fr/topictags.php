@@ -47,4 +47,8 @@ $lang = array_merge($lang, array(
 
 	'RH_TOPICTAGS_TAG_SUGGEST_TAG_ROUTE_ERROR' => 'Pas de route trouvée pour “%s”',
 
+	'RH_TOPICTAGS_SELECTED'			=> 'Balises sélectionnées',
+	'RH_TOPICTAGS_REMOVE_TAG'		=> 'Retirer la balise %s de cette recherche',
+	'RH_TOPICTAGS_NARROW_BY'		=> 'Affiner avec une autre balise',
+	'RH_TOPICTAGS_ADD_TAG'			=> 'Exiger aussi la balise %s',
 ));

@@ -61,6 +61,9 @@ class main_listener implements EventSubscriberInterface
 	/** @var \robertheim\topictags\service\tagcloud_manager */
 	protected $tagcloud_manager;
 
+	/** @var \robertheim\topictags\service\tag_filter */
+	protected $tag_filter;
+
 	/**
 	 * Constructor
 	 */
@@ -72,7 +75,8 @@ class main_listener implements EventSubscriberInterface
 							\phpbb\user $user,
 							\phpbb\template\template $template,
 							\phpbb\auth\auth $auth,
-							\robertheim\topictags\service\tagcloud_manager $tagcloud_manager
+							\robertheim\topictags\service\tagcloud_manager $tagcloud_manager,
+							\robertheim\topictags\service\tag_filter $tag_filter
 	)
 	{
 		$this->config = $config;
@@ -83,6 +87,7 @@ class main_listener implements EventSubscriberInterface
 		$this->template = $template;
 		$this->auth = $auth;
 		$this->tagcloud_manager = $tagcloud_manager;
+		$this->tag_filter = $tag_filter;
 	}
 
 	/**
@@ -365,13 +370,47 @@ class main_listener implements EventSubscriberInterface
 	 */
 	private function assign_tags_to_template($block_name, array $tags)
 	{
+		$mode = $this->tag_filter->get_search_mode();
+		$casesensitive = $this->tag_filter->is_casesensitive();
+		$has_filter = !empty($this->tag_filter->get_search_tags());
+
 		foreach ($tags as $tag)
 		{
+			$selected = $this->tag_filter->is_selected($tag);
+			$next = $this->tag_filter->toggle_tag($tag);
+			if (!empty($next))
+			{
+				$params = array(
+					'tags'	=> implode(',', $next),
+				);
+				if ($has_filter && $mode !== 'AND')
+				{
+					$params['mode'] = $mode;
+				}
+				if ($has_filter && $casesensitive)
+				{
+					$params['casesensitive'] = 'true';
+				}
+				$link = $this->helper->route('robertheim_topictags_show_tag_controller', $params);
+			}
+			else
+			{
+				$link = $this->helper->route('robertheim_topictags_controller');
+			}
+
+			$title = '';
+			if ($has_filter)
+			{
+				$title = $selected
+					? $this->user->lang('RH_TOPICTAGS_REMOVE_TAG', $tag)
+					: $this->user->lang('RH_TOPICTAGS_ADD_TAG', $tag);
+			}
+
 			$this->template->assign_block_vars($block_name, array (
-				'NAME'	=> $tag,
-				'LINK'	=> $this->helper->route('robertheim_topictags_show_tag_controller', array(
-					'tags'	=> urlencode($tag),
-				)),
+				'NAME'		=> $tag,
+				'LINK'		=> $link,
+				'S_SELECTED'	=> $selected,
+				'TITLE'		=> $title,
 			));
 		}
 	}

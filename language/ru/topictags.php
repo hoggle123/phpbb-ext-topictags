@@ -42,4 +42,8 @@ $lang = array_merge($lang, array(
 		2 => 'Самые популярные теги: %d.',
 	),
 
+	'RH_TOPICTAGS_SELECTED'			=> 'Выбранные теги',
+	'RH_TOPICTAGS_REMOVE_TAG'		=> 'Убрать тег %s из поиска',
+	'RH_TOPICTAGS_NARROW_BY'		=> 'Уточнить другим тегом',
+	'RH_TOPICTAGS_ADD_TAG'			=> 'Также требовать тег %s',
 ));
