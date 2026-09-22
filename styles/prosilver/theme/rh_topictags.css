@@ -1,0 +1,145 @@
+/*
+ * RH Topic Tags
+ * This is the file phpBB loads on this board
+ * (styles/prosilver/theme/rh_topictags.css via INCLUDECSS).
+ * Keep it in sync with styles/all/theme/rh_topictags.css.
+ */
+
+.rh_topictags_tagcloud ul,
+.rh_topictags_tagcloud li {
+	list-style: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.rh_topictags_tagcloud ul {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	gap: 6px !important;
+}
+
+.rh_tag,
+.rh_topictags_tagcloud .rh_tag,
+.rh_topictags_tagcloud li a,
+tags-input .tags .tag-item {
+	display: inline-block !important;
+	padding: 3px 9px !important;
+	margin: 2px 4px 2px 0 !important;
+	border-radius: 9999px !important;
+	border: 1px solid #a0b5c8 !important;
+	background-color: #cadceb !important;
+	color: #105289 !important;
+	text-decoration: none !important;
+	font-size: 0.9em;
+	white-space: nowrap;
+	line-height: 1.3;
+}
+
+.rh_tag a,
+.rh_topictags_tagcloud li a {
+	color: #105289 !important;
+	text-decoration: none !important;
+}
+
+.rh_tag:hover,
+.rh_topictags_tagcloud .rh_tag:hover,
+.rh_topictags_tagcloud li a:hover,
+tags-input .tags .tag-item:hover,
+.rh_tag:hover a {
+	background-color: #105289 !important;
+	color: #ffffff !important;
+	border-color: #105289 !important;
+}
+
+.rh_tag-selected,
+.rh_tag-selected a {
+	background-color: #105289 !important;
+	color: #ffffff !important;
+	border-color: #105289 !important;
+}
+
+.rh_topictags_count {
+	color: #3d4d5c !important;
+}
+
+.rh_tag:hover .rh_topictags_count,
+.rh_topictags_tagcloud li a:hover .rh_topictags_count,
+.rh_tag-selected .rh_topictags_count {
+	color: #ffffff !important;
+}
+
+.rh_topictags_refine {
+	margin: 0 0 1em 0;
+}
+
+.rh_topictags_refine p {
+	margin: 0.4em 0;
+}
+
+.rh_topictags_row {
+	display: inline;
+}
+
+/* Dark mode: we_universal sets data-theme on <html> */
+html[data-theme="dark"] .rh_tag,
+html[data-theme="dark"] .rh_topictags_tagcloud .rh_tag,
+html[data-theme="dark"] .rh_topictags_tagcloud li a,
+html[data-theme="dark"] tags-input .tags .tag-item,
+[data-theme="dark"] .rh_tag,
+[data-theme="dark"] .rh_topictags_tagcloud .rh_tag,
+[data-theme="dark"] .rh_topictags_tagcloud li a,
+[data-theme="dark"] tags-input .tags .tag-item {
+	background-color: #2c5270 !important;
+	color: #e8f2fa !important;
+	border-color: #4a6a8a !important;
+}
+
+html[data-theme="dark"] .rh_tag a,
+html[data-theme="dark"] .rh_topictags_tagcloud li a,
+[data-theme="dark"] .rh_tag a,
+[data-theme="dark"] .rh_topictags_tagcloud li a {
+	color: #e8f2fa !important;
+}
+
+html[data-theme="dark"] .rh_tag:hover,
+html[data-theme="dark"] .rh_topictags_tagcloud .rh_tag:hover,
+html[data-theme="dark"] .rh_topictags_tagcloud li a:hover,
+html[data-theme="dark"] tags-input .tags .tag-item:hover,
+html[data-theme="dark"] .rh_tag:hover a,
+[data-theme="dark"] .rh_tag:hover,
+[data-theme="dark"] .rh_topictags_tagcloud li a:hover,
+[data-theme="dark"] .rh_tag:hover a {
+	background-color: #5aa0d6 !important;
+	color: #0d1b26 !important;
+	border-color: #5aa0d6 !important;
+}
+
+html[data-theme="dark"] .rh_tag-selected,
+html[data-theme="dark"] .rh_tag-selected a,
+[data-theme="dark"] .rh_tag-selected,
+[data-theme="dark"] .rh_tag-selected a {
+	background-color: #5aa0d6 !important;
+	color: #0d1b26 !important;
+	border-color: #5aa0d6 !important;
+}
+
+html[data-theme="dark"] .rh_topictags_count,
+[data-theme="dark"] .rh_topictags_count {
+	color: #c5d4e0 !important;
+}
+
+html[data-theme="dark"] .rh_tag:hover .rh_topictags_count,
+html[data-theme="dark"] .rh_topictags_tagcloud li a:hover .rh_topictags_count,
+html[data-theme="dark"] .rh_tag-selected .rh_topictags_count,
+[data-theme="dark"] .rh_tag:hover .rh_topictags_count,
+[data-theme="dark"] .rh_tag-selected .rh_topictags_count {
+	color: #0d1b26 !important;
+}
+
+.rh_topictags_smallest { font-size: 105% !important; }
+.rh_topictags_smaller  { font-size: 120% !important; }
+.rh_topictags_small    { font-size: 135% !important; }
+.rh_topictags_medium   { font-size: 170% !important; }
+.rh_topictags_large    { font-size: 210% !important; }
+.rh_topictags_larger   { font-size: 240% !important; }
+.rh_topictags_largest  { font-size: 275% !important; }
