@@ -58,6 +58,13 @@ tags-input .tags .tag-item:hover,
 	border-color: #105289 !important;
 }
 
+.rh_tag-remove {
+	display: inline-block;
+	margin-left: 0.4em;
+	font-weight: 700;
+	line-height: 1;
+}
+
 .rh_topictags_count {
 	color: #3d4d5c !important;
 }
@@ -80,7 +87,6 @@ tags-input .tags .tag-item:hover,
 	display: inline;
 }
 
-/* Dark mode: we_universal sets data-theme on <html> */
 html[data-theme="dark"] .rh_tag,
 html[data-theme="dark"] .rh_topictags_tagcloud .rh_tag,
 html[data-theme="dark"] .rh_topictags_tagcloud li a,
