@@ -69,6 +69,10 @@ class tagcloud_manager
 		// get the data
 		// when $limit is still 0 there should not be displayed any tags
 		$tags = (0 == $limit) ? array() : $this->get_top_tags($limit);
+		usort($tags, function ($a, $b)
+		{
+			return strcasecmp($a['tag'], $b['tag']);
+		});
 		$maximum = $this->get_maximum_tag_usage_count();
 
 		$result_size = sizeof($tags);
