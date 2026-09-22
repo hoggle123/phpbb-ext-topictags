@@ -30,7 +30,7 @@ tags-input .tags .tag-item {
 	background-color: #cadceb !important;
 	color: #105289 !important;
 	text-decoration: none !important;
-	font-weight: 700;
+	font-weight: 400;
 	white-space: nowrap;
 	line-height: 1.25;
 }
@@ -44,6 +44,7 @@ tags-input .tags .tag-item {
 	padding: 0 !important;
 	margin: 0 !important;
 	font-size: inherit !important;
+	font-weight: inherit !important;
 }
 
 /* Board-style cloud: size class lives on the <a>. Scale the whole chip. */
@@ -70,7 +71,7 @@ tags-input .tags .tag-item {
 
 ul.topiclist .rh_tag {
 	font-size: 1em !important;
-	font-weight: 700 !important;
+	font-weight: 400 !important;
 	padding: 0.1em 0.5em !important;
 	margin: 0 0.25em 0.15em 0 !important;
 	vertical-align: middle;
@@ -102,7 +103,7 @@ tags-input .tags .tag-item:hover,
 
 .rh_topictags_count {
 	color: inherit !important;
-	font-weight: 600;
+	font-weight: 400;
 }
 
 .rh_topictags_refine {
