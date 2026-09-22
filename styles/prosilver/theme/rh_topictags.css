@@ -31,6 +31,7 @@ tags-input .tags .tag-item {
 	color: #105289 !important;
 	text-decoration: none !important;
 	font-size: 0.9em;
+	font-weight: 700;
 	white-space: nowrap;
 	line-height: 1.3;
 }
@@ -39,6 +40,14 @@ tags-input .tags .tag-item {
 .rh_topictags_tagcloud li a {
 	color: #105289 !important;
 	text-decoration: none !important;
+}
+
+/* Search / topic-row chips: same visual size as a mid cloud tag */
+.rh_topictags_refine .rh_tag,
+ul.topiclist .rh_tag {
+	font-size: 150% !important;
+	padding: 5px 14px !important;
+	margin: 3px 6px 3px 0 !important;
 }
 
 .rh_tag:hover,
@@ -67,6 +76,7 @@ tags-input .tags .tag-item:hover,
 
 .rh_topictags_count {
 	color: #3d4d5c !important;
+	font-weight: 600;
 }
 
 .rh_tag:hover .rh_topictags_count,
