@@ -41,11 +41,18 @@ tags-input .tags .tag-item {
 	text-decoration: none !important;
 }
 
-.rh_topictags_refine .rh_tag,
-ul.topiclist .rh_tag {
+.rh_topictags_refine .rh_tag {
 	font-size: 150% !important;
 	padding: 5px 14px !important;
 	margin: 3px 6px 3px 0 !important;
+}
+
+ul.topiclist .rh_tag {
+	font-size: 1em !important;
+	font-weight: 700 !important;
+	padding: 1px 8px !important;
+	margin: 0 4px 2px 0 !important;
+	vertical-align: middle;
 }
 
 .rh_tag:hover,
