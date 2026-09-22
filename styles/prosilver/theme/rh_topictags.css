@@ -2,7 +2,10 @@
  * RH Topic Tags
  * This is the file phpBB loads on this board
  * (styles/prosilver/theme/rh_topictags.css via INCLUDECSS).
- * Keep it in sync with styles/all/theme/rh_topictags.css.
+ *
+ * The index tag cloud markup is owned by the board style
+ * (tag_cloud_at_the_top): <li><a class="rh_topictags_*">name</a><span class="rh_topictags_count">(n)</span></li>
+ * Size the <li> chip from that class. Do not depend on the extension tagcloud.html.
  */
 
 .rh_topictags_tagcloud ul {
@@ -12,7 +15,7 @@
 	display: flex !important;
 	flex-wrap: wrap !important;
 	align-items: center !important;
-	gap: 6px !important;
+	gap: 8px !important;
 }
 
 .rh_tag,
@@ -21,7 +24,7 @@
 tags-input .tags .tag-item {
 	display: inline-block !important;
 	padding: 0.2em 0.75em !important;
-	margin: 0.15em 0.2em 0.15em 0 !important;
+	margin: 0 !important;
 	border-radius: 9999px !important;
 	border: 1px solid #a0b5c8 !important;
 	background-color: #cadceb !important;
@@ -42,6 +45,22 @@ tags-input .tags .tag-item {
 	margin: 0 !important;
 	font-size: inherit !important;
 }
+
+/* Board-style cloud: size class lives on the <a>. Scale the whole chip. */
+.rh_topictags_tagcloud li:has(a.rh_topictags_smallest),
+.rh_topictags_tagcloud li.rh_topictags_smallest { font-size: 105% !important; }
+.rh_topictags_tagcloud li:has(a.rh_topictags_smaller),
+.rh_topictags_tagcloud li.rh_topictags_smaller  { font-size: 120% !important; }
+.rh_topictags_tagcloud li:has(a.rh_topictags_small),
+.rh_topictags_tagcloud li.rh_topictags_small    { font-size: 135% !important; }
+.rh_topictags_tagcloud li:has(a.rh_topictags_medium),
+.rh_topictags_tagcloud li.rh_topictags_medium   { font-size: 170% !important; }
+.rh_topictags_tagcloud li:has(a.rh_topictags_large),
+.rh_topictags_tagcloud li.rh_topictags_large    { font-size: 210% !important; }
+.rh_topictags_tagcloud li:has(a.rh_topictags_larger),
+.rh_topictags_tagcloud li.rh_topictags_larger   { font-size: 240% !important; }
+.rh_topictags_tagcloud li:has(a.rh_topictags_largest),
+.rh_topictags_tagcloud li.rh_topictags_largest  { font-size: 275% !important; }
 
 .rh_topictags_refine .rh_tag {
 	font-size: 150% !important;
@@ -139,11 +158,3 @@ html[data-theme="dark"] .rh_tag-selected a,
 	color: #0d1b26 !important;
 	border-color: #5aa0d6 !important;
 }
-
-.rh_topictags_smallest { font-size: 105% !important; }
-.rh_topictags_smaller  { font-size: 120% !important; }
-.rh_topictags_small    { font-size: 135% !important; }
-.rh_topictags_medium   { font-size: 170% !important; }
-.rh_topictags_large    { font-size: 210% !important; }
-.rh_topictags_larger   { font-size: 240% !important; }
-.rh_topictags_largest  { font-size: 275% !important; }
