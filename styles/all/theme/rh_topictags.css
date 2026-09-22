@@ -1,6 +1,9 @@
 /*
  *	.rh_tag is used in viewforum etc to show that an item is tagged with this tag.
  *	For the tag cloud rh_topictags_smallest etc. are used to define the size of the tags.
+ *
+ *	Colours are explicit so we_universal / tag_cloud_at_the_top dark mode
+ *	cannot inherit light link text onto a light chip.
  */
 
 .rh_topictags_tagcloud
@@ -21,11 +24,20 @@ tags-input .tags .tag-item
 {
 	list-style-type:	none;
 	display:			inline-block;
+	vertical-align:		middle;
 	text-align:			center;
-	background: none;
+	white-space:		nowrap;
 	border-radius:		10px;
 	background-color:	#cadceb;
+	color:				#0b3a5b;
+}
 
+.rh_topictags_tagcloud li a,
+.rh_tag a,
+tags-input .tags .tag-item a
+{
+	color:				#0b3a5b;
+	text-decoration:	none;
 }
 
 .rh_topictags_tagcloud li
@@ -45,44 +57,124 @@ tags-input .tags .tag-item
 .rh_tag-selected
 {
 	background-color:	#105289;
+	color:				#e8f1f8;
 }
 
 .rh_tag-selected a
 {
-	color:	#cadceb;
+	color:	#e8f1f8;
 }
 
 .rh_topictags_count
 {
-	color:		#555;
+	color:		#3d4d5c;
 	font-size:	x-small;
 }
 
 .rh_topictags_tagcloud li:hover,
-.rh_tag:hover
-,tags-input .tags .tag-item:hover
+.rh_tag:hover,
+tags-input .tags .tag-item:hover
 {
 	background-color:	#105289;
+	color:				#e8f1f8;
 }
 
 .rh_topictags_tagcloud li:hover .rh_topictags_count,
 .rh_topictags_tagcloud li:hover a,
 .rh_tag:hover a,
+.rh_tag:hover .rh_topictags_count,
 tags-input .tags .tag-item:hover,
 tags-input .tags .tag-item:hover a
 {
-	color:				#cadceb;
-	background-color:	#105289;
+	color:				#e8f1f8;
+	background-color:	transparent;
 }
 
 .rh_topictags_refine
 {
 	margin:	0 0 1em 0;
+	overflow:	hidden;
 }
 
 .rh_topictags_refine p
 {
 	margin:	0.4em 0;
+}
+
+.rh_topictags_row
+{
+	display:	block;
+	clear:		both;
+	width:		100%;
+	margin-top:	4px;
+	line-height: 1.8;
+	text-align:	inherit;
+}
+
+/*
+ * we_universal uses display:table / table-layout:fixed on topic rows.
+ * Keep the title cell from collapsing when chips wrap inside dt.
+ */
+ul.topiclist dt .list-inner
+{
+	min-width:	0;
+}
+
+ul.topiclist.topics li.row dt .list-inner
+{
+	margin-right:	0 !important;
+	word-break:		normal;
+	overflow-wrap:	break-word;
+}
+
+/* ----------- dark mode (we_universal switch-theme sets data-theme) ----------- */
+
+html[data-theme="dark"] .rh_topictags_tagcloud li,
+html[data-theme="dark"] .rh_tag,
+html[data-theme="dark"] tags-input .tags .tag-item
+{
+	background-color:	#2c5270;
+	color:				#e8f2fa;
+}
+
+html[data-theme="dark"] .rh_topictags_tagcloud li a,
+html[data-theme="dark"] .rh_tag a,
+html[data-theme="dark"] tags-input .tags .tag-item a
+{
+	color:	#e8f2fa;
+}
+
+html[data-theme="dark"] .rh_tag-selected
+{
+	background-color:	#5aa0d6;
+	color:				#0d1b26;
+}
+
+html[data-theme="dark"] .rh_tag-selected a
+{
+	color:	#0d1b26;
+}
+
+html[data-theme="dark"] .rh_topictags_count
+{
+	color:	#c5d4e0;
+}
+
+html[data-theme="dark"] .rh_topictags_tagcloud li:hover,
+html[data-theme="dark"] .rh_tag:hover,
+html[data-theme="dark"] tags-input .tags .tag-item:hover
+{
+	background-color:	#5aa0d6;
+	color:				#0d1b26;
+}
+
+html[data-theme="dark"] .rh_topictags_tagcloud li:hover a,
+html[data-theme="dark"] .rh_topictags_tagcloud li:hover .rh_topictags_count,
+html[data-theme="dark"] .rh_tag:hover a,
+html[data-theme="dark"] .rh_tag:hover .rh_topictags_count,
+html[data-theme="dark"] tags-input .tags .tag-item:hover a
+{
+	color:	#0d1b26;
 }
 
 /* ----------- tag sizes for tag-cloud ----------- */
@@ -91,22 +183,22 @@ tags-input .tags .tag-item:hover a
 {
 	font-size:	x-small;
 }
- 
+
 .rh_topictags_small
 {
 	font-size:	small;
 }
- 
+
 .rh_topictags_medium
 {
 	font-size:	medium;
 }
- 
+
 .rh_topictags_large
 {
 	font-size:	large;
 }
- 
+
 .rh_topictags_largest
 {
 	font-size:	x-large;
@@ -114,11 +206,10 @@ tags-input .tags .tag-item:hover a
 /* --------- END tag sizes for tag-cloud --------- */
 
 /* Smartphones (portrait and landscape) ----------- */
-@media only screen 
-and (min-width : 320px) 
+@media only screen
+and (min-width : 320px)
 and (max-width : 480px)
 {
-/* Styles */
 	.rh_topictags_tagcloud li
 	{
 		display:	block;

@@ -12,13 +12,13 @@
 			<!-- IF .rh_filter_tags -->
 				<p>{L_RH_TOPICTAGS_SELECTED}{L_COLON}</p>
 				<!-- BEGIN rh_filter_tags -->
-					<div class="rh_tag rh_tag-selected"><a href="{rh_filter_tags.LINK}" title="{rh_filter_tags.TITLE}">{rh_filter_tags.NAME}</a></div>
+					<span class="rh_tag rh_tag-selected"><a href="{rh_filter_tags.LINK}" title="{rh_filter_tags.TITLE}">{rh_filter_tags.NAME}</a></span>
 				<!-- END rh_filter_tags -->
 			<!-- ENDIF -->
 			<!-- IF .rh_narrow_tags -->
 				<p>{L_RH_TOPICTAGS_NARROW_BY}{L_COLON}</p>
 				<!-- BEGIN rh_narrow_tags -->
-					<div class="rh_tag"><a href="{rh_narrow_tags.LINK}" title="{rh_narrow_tags.TITLE}">{rh_narrow_tags.NAME}</a> <span class="rh_topictags_count">({rh_narrow_tags.COUNT})</span></div>
+					<span class="rh_tag"><a href="{rh_narrow_tags.LINK}" title="{rh_narrow_tags.TITLE}">{rh_narrow_tags.NAME} <span class="rh_topictags_count">({rh_narrow_tags.COUNT})</span></a></span>
 				<!-- END rh_narrow_tags -->
 			<!-- ENDIF -->
 		</div>
@@ -88,7 +88,7 @@
 							</a>
 						<!-- ENDIF -->
 						<!-- IF topicrow.S_TOPIC_REPORTED -->
-							<a href="{topicrow.U_MCP_REPORT}" title="{TOPIC_REPORTED}">
+							<a href="{topicrow.U_MCP_QUEUE}" title="{TOPIC_REPORTED}">
 								<i class="icon fa-exclamation fa-fw icon-red" aria-hidden="true"></i><span class="sr-only">{TOPIC_REPORTED}</span>
 							</a>
 						<!-- ENDIF -->
