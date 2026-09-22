@@ -42,6 +42,16 @@ tags-input .tags .tag-item
 	margin:			3px 2px 2px 2px;
 }
 
+.rh_tag-selected
+{
+	background-color:	#105289;
+}
+
+.rh_tag-selected a
+{
+	color:	#cadceb;
+}
+
 .rh_topictags_count
 {
 	color:		#555;
@@ -63,6 +73,16 @@ tags-input .tags .tag-item:hover a
 {
 	color:				#cadceb;
 	background-color:	#105289;
+}
+
+.rh_topictags_refine
+{
+	margin:	0 0 1em 0;
+}
+
+.rh_topictags_refine p
+{
+	margin:	0.4em 0;
 }
 
 /* ----------- tag sizes for tag-cloud ----------- */

@@ -46,4 +46,9 @@ $lang = array_merge($lang, array(
 	'RH_TOPICTAGS_TAG_SEARCH' => 'Tag-Search',
 
 	'RH_TOPICTAGS_TAG_SUGGEST_TAG_ROUTE_ERROR' => 'No route found for “%s”',
+
+	'RH_TOPICTAGS_SELECTED'			=> 'Selected tags',
+	'RH_TOPICTAGS_REMOVE_TAG'		=> 'Remove tag %s from this search',
+	'RH_TOPICTAGS_NARROW_BY'		=> 'Narrow by another tag',
+	'RH_TOPICTAGS_ADD_TAG'			=> 'Also require tag %s',
 ));

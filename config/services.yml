@@ -10,6 +10,7 @@ services:
             - '@template'
             - '@auth'
             - '@robertheim.topictags.tagcloud_manager'
+            - '@robertheim.topictags.tag_filter'
         tags:
             - { name: event.listener }
     robertheim.topictags.acp_listener:
@@ -36,6 +37,7 @@ services:
             - '%core.root_path%'
             - '@robertheim.topictags.tags_manager'
             - '@robertheim.topictags.tagcloud_manager'
+            - '@robertheim.topictags.tag_filter'
     robertheim.topictags.db_helper:
         class: robertheim\topictags\service\db_helper
         arguments:
@@ -48,6 +50,12 @@ services:
             - '@config_text'
             - '@auth'
             - '@robertheim.topictags.db_helper'
+            - '%core.table_prefix%'
+    robertheim.topictags.tag_filter:
+        class: robertheim\topictags\service\tag_filter
+        arguments:
+            - '@robertheim.topictags.tags_manager'
+            - '@dbal.conn.driver'
             - '%core.table_prefix%'
     robertheim.topictags.tagcloud_manager:
         class: robertheim\topictags\service\tagcloud_manager
@@ -76,4 +84,3 @@ services:
             - '@user'
             - '@template'
             - '@robertheim.topictags.tags_manager'
-
