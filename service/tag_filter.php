@@ -134,7 +134,7 @@ class tag_filter
 			JOIN ' . $this->table_prefix . tables::TAGS . ' t2 ON t2.id = tt2.tag_id
 			WHERE ' . $exclude_sql . '
 			GROUP BY t2.tag
-			ORDER BY tag_count DESC, t2.tag ASC';
+			ORDER BY t2.tag ASC';
 
 		$result = $this->db->sql_query_limit($sql, (int) $limit);
 		$out = array();
