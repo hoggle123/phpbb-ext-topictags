@@ -31,6 +31,9 @@ class tag_filter
 	/** @var string */
 	protected $search_mode = 'AND';
 
+	/** @var bool */
+	protected $casesensitive = false;
+
 	public function __construct(tags_manager $tags_manager, \phpbb\db\driver\driver_interface $db, $table_prefix)
 	{
 		$this->tags_manager = $tags_manager;
@@ -41,11 +44,13 @@ class tag_filter
 	/**
 	 * @param array $tags
 	 * @param string $mode AND or OR
+	 * @param bool $casesensitive
 	 */
-	public function set_search_context(array $tags, $mode = 'AND')
+	public function set_search_context(array $tags, $mode = 'AND', $casesensitive = false)
 	{
 		$this->search_tags = array_values($tags);
 		$this->search_mode = ($mode == 'OR' ? 'OR' : 'AND');
+		$this->casesensitive = (bool) $casesensitive;
 	}
 
 	/**
@@ -62,6 +67,14 @@ class tag_filter
 	public function get_search_mode()
 	{
 		return $this->search_mode;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function is_casesensitive()
+	{
+		return $this->casesensitive;
 	}
 
 	/**
@@ -89,9 +102,10 @@ class tag_filter
 	 * @param array $tags
 	 * @param string $mode
 	 * @param bool $casesensitive
+	 * @param int $limit
 	 * @return array list of array('tag' => string, 'count' => int)
 	 */
-	public function get_cooccurring_tags(array $tags, $mode = 'AND', $casesensitive = false)
+	public function get_cooccurring_tags(array $tags, $mode = 'AND', $casesensitive = false, $limit = 30)
 	{
 		if (empty($tags))
 		{
@@ -99,15 +113,30 @@ class tag_filter
 		}
 
 		$topics_sql = $this->tags_manager->get_topics_build_query($tags, $mode, $casesensitive);
+
+		if ($casesensitive)
+		{
+			$exclude_sql = $this->db->sql_in_set('t2.tag', $tags, true, true);
+		}
+		else
+		{
+			$lower = $tags;
+			for ($i = 0, $count = sizeof($lower); $i < $count; $i++)
+			{
+				$lower[$i] = utf8_strtolower($lower[$i]);
+			}
+			$exclude_sql = $this->db->sql_in_set('t2.tag_lowercase', $lower, true, true);
+		}
+
 		$sql = 'SELECT t2.tag, COUNT(DISTINCT tt2.topic_id) AS tag_count
 			FROM (' . $topics_sql . ') topics
 			JOIN ' . $this->table_prefix . tables::TOPICTAGS . ' tt2 ON tt2.topic_id = topics.topic_id
 			JOIN ' . $this->table_prefix . tables::TAGS . ' t2 ON t2.id = tt2.tag_id
-			WHERE ' . $this->db->sql_in_set('t2.tag', $tags, true, true) . '
+			WHERE ' . $exclude_sql . '
 			GROUP BY t2.tag
 			ORDER BY tag_count DESC, t2.tag ASC';
 
-		$result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query_limit($sql, (int) $limit);
 		$out = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{

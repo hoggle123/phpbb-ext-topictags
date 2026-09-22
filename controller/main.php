@@ -56,6 +56,9 @@ class main
 	/** @var \robertheim\topictags\service\tagcloud_manager */
 	protected $tagcloud_manager;
 
+	/** @var \robertheim\topictags\service\tag_filter */
+	protected $tag_filter;
+
 	/**
 	 * Constructor
 	 */
@@ -72,7 +75,8 @@ class main
 						$php_ext,
 						$phpbb_root_path,
 						\robertheim\topictags\service\tags_manager $tags_manager,
-						\robertheim\topictags\service\tagcloud_manager $tagcloud_manager
+						\robertheim\topictags\service\tagcloud_manager $tagcloud_manager,
+						\robertheim\topictags\service\tag_filter $tag_filter
 	)
 	{
 		$this->config = $config;
@@ -88,6 +92,7 @@ class main
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->tags_manager = $tags_manager;
 		$this->tagcloud_manager = $tagcloud_manager;
+		$this->tag_filter = $tag_filter;
 	}
 
 	/**
@@ -113,8 +118,14 @@ class main
 		// validate mode
 		// default == AND
 		$mode = ($mode == 'OR' ? 'OR' : 'AND');
+		$casesensitive = $this->normalize_casesensitive($casesensitive);
 
 		$tags = explode(',', urldecode($tags));
+		$tags = array_map('trim', $tags);
+		$tags = array_values(array_filter($tags, function ($tag)
+		{
+			return $tag !== '';
+		}));
 		// remove possible duplicates
 		$tags = array_unique($tags);
 		$all_tags = $this->tags_manager->split_valid_tags($tags);
@@ -138,6 +149,9 @@ class main
 			return $this->helper->render('show_tag.html', $this->user->lang('RH_TOPICTAGS_TAG_SEARCH'));
 		}
 
+		$this->tag_filter->set_search_context($tags, $mode, $casesensitive);
+		$this->assign_filter_ui($tags, $mode, $casesensitive);
+
 		$topics_count	= $this->tags_manager->count_topics_by_tags($tags, $mode, $casesensitive);
 		if ($topics_count <= 0)
 		{
@@ -155,9 +169,7 @@ class main
 
 			$topics			= $this->tags_manager->get_topics_by_tags($tags, $start, $limit, $mode, $casesensitive);
 
-			$base_url		= $this->helper->route('robertheim_topictags_show_tag_controller', array(
-				'tags'	=> urlencode($tags_string),
-			));
+			$base_url		= $this->filter_route($tags, $mode, $casesensitive);
 			$base_url		= append_sid($base_url);
 
 			$pagination->generate_template_pagination($base_url, 'pagination', 'start', $topics_count, $limit, $start);
@@ -178,6 +190,86 @@ class main
 			$this->display_topics($topics);
 		} // else
 		return $this->helper->render('show_tag.html', $this->user->lang('RH_TOPICTAGS_TAG_SEARCH'));
+	}
+
+	/**
+	 * Assign selected-tag chips and a narrow-by list to the tag-results page.
+	 *
+	 * @param array $tags
+	 * @param string $mode
+	 * @param bool $casesensitive
+	 */
+	private function assign_filter_ui(array $tags, $mode, $casesensitive)
+	{
+		$this->template->assign_var('S_RH_TOPICTAGS_REFINE', true);
+		$this->template->assign_var('S_RH_TOPICTAGS_INCLUDE_CSS', true);
+
+		foreach ($tags as $tag)
+		{
+			$without = $this->tag_filter->toggle_tag($tag);
+			$this->template->assign_block_vars('rh_filter_tags', array(
+				'NAME'	=> $tag,
+				'LINK'	=> $this->filter_route($without, $mode, $casesensitive),
+				'TITLE'	=> $this->user->lang('RH_TOPICTAGS_REMOVE_TAG', $tag),
+			));
+		}
+
+		$narrow = $this->tag_filter->get_cooccurring_tags($tags, $mode, $casesensitive);
+		foreach ($narrow as $row)
+		{
+			$with = $tags;
+			$with[] = $row['tag'];
+			$this->template->assign_block_vars('rh_narrow_tags', array(
+				'NAME'	=> $row['tag'],
+				'COUNT'	=> $row['count'],
+				'LINK'	=> $this->filter_route($with, $mode, $casesensitive),
+				'TITLE'	=> $this->user->lang('RH_TOPICTAGS_ADD_TAG', $row['tag']),
+			));
+		}
+	}
+
+	/**
+	 * Route for a tag filter. An empty tag list goes back to the tag cloud.
+	 *
+	 * @param array $tags
+	 * @param string $mode
+	 * @param bool $casesensitive
+	 * @return string
+	 */
+	private function filter_route(array $tags, $mode = 'AND', $casesensitive = false)
+	{
+		if (empty($tags))
+		{
+			return $this->helper->route('robertheim_topictags_controller');
+		}
+
+		$params = array(
+			'tags'	=> implode(',', $tags),
+		);
+		if ($mode !== 'AND')
+		{
+			$params['mode'] = $mode;
+		}
+		if ($casesensitive)
+		{
+			$params['casesensitive'] = 'true';
+		}
+		return $this->helper->route('robertheim_topictags_show_tag_controller', $params);
+	}
+
+	/**
+	 * Route parameter to boolean. The URL may carry "true"/"false".
+	 *
+	 * @param mixed $casesensitive
+	 * @return bool
+	 */
+	private function normalize_casesensitive($casesensitive)
+	{
+		if (is_string($casesensitive))
+		{
+			return !in_array(strtolower($casesensitive), array('0', 'false', ''), true);
+		}
+		return (bool) $casesensitive;
 	}
 
 	/**
