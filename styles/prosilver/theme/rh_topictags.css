@@ -47,7 +47,6 @@ tags-input .tags .tag-item {
 	font-weight: inherit !important;
 }
 
-/* Board-style cloud: size class lives on the <a>. Scale the whole chip. */
 .rh_topictags_tagcloud li:has(a.rh_topictags_smallest),
 .rh_topictags_tagcloud li.rh_topictags_smallest { font-size: 105% !important; }
 .rh_topictags_tagcloud li:has(a.rh_topictags_smaller),
@@ -75,6 +74,10 @@ ul.topiclist .rh_tag {
 	padding: 0.1em 0.5em !important;
 	margin: 0 0.25em 0.15em 0 !important;
 	vertical-align: middle;
+}
+
+.rh_topictags_search_link {
+	margin: 0 0 1em 0;
 }
 
 .rh_tag:hover,
