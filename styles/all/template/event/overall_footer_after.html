@@ -1,15 +1,20 @@
 <!-- INCLUDE js_includes.html -->
-<!-- IF SCRIPT_NAME == search -->
-<p id="rh_topictags_search_link" class="rh_topictags_search_link">
+<p id="rh_topictags_search_link" class="rh_topictags_search_link" hidden>
 	<a href="{RH_TOPICTAGS_TAGCLOUD_LINK}">{L_RH_TOPICTAGS_SEARCH_FOR_TAGS}</a>
 </p>
 <script>
 (function () {
+	if (!document.body || document.body.className.indexOf('section-search') === -1) {
+		return;
+	}
 	var p = document.getElementById('rh_topictags_search_link');
-	var h = document.querySelector('#page-body h2');
-	if (p && h && h.parentNode) {
+	if (!p) {
+		return;
+	}
+	p.removeAttribute('hidden');
+	var h = document.querySelector('h2.solo') || document.querySelector('h2');
+	if (h && h.parentNode) {
 		h.parentNode.insertBefore(p, h.nextSibling);
 	}
 })();
 </script>
-<!-- ENDIF -->
