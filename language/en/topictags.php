@@ -20,7 +20,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'RH_TOPICTAGS'						=> 'Tags',
 
-	'RH_TOPICTAGS_TAGCLOUD'				=> 'Tag cloud',
+	'RH_TOPICTAGS_TAGCLOUD'				=> 'Tag Cloud',
 	'RH_TOPICTAGS_SEARCH_FOR_TAGS'		=> 'Search by tags',
 
 	'RH_TOPICTAGS_ALLOWED_TAGS'			=> 'Allowed tags:',
