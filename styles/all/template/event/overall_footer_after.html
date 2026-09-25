@@ -4,7 +4,7 @@
 </p>
 <script>
 (function () {
-	if (!document.body || document.body.className.indexOf('section-search') === -1) {
+	if (!document.querySelector('form[data-focus="keywords"] #keywords')) {
 		return;
 	}
 	var p = document.getElementById('rh_topictags_search_link');
