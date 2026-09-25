@@ -21,6 +21,7 @@ $lang = array_merge($lang, array(
 	'RH_TOPICTAGS'						=> 'Tags',
 
 	'RH_TOPICTAGS_TAGCLOUD'				=> 'Tag cloud',
+	'RH_TOPICTAGS_SEARCH_FOR_TAGS'		=> 'Search for tags',
 
 	'RH_TOPICTAGS_ALLOWED_TAGS'			=> 'Allowed tags:',
 	'RH_TOPICTAGS_WHITELIST_EXP'		=> 'Only these tags are allowed:',
