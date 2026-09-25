@@ -26,6 +26,7 @@ class main_listener implements EventSubscriberInterface
 	{
 		return array(
 			'core.user_setup'                                => 'load_language_on_setup',
+			'core.page_header'                               => 'page_header',
 			'core.index_modify_page_title'                   => 'index_modify_page_title',
 			'core.modify_posting_parameters'                 => 'modify_posting_parameters',
 			'core.posting_modify_template_vars'              => 'posting_modify_template_vars',
@@ -131,6 +132,15 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
+	 * Event: core.page_header
+	 * Tag cloud URL for pages that are not the index (search form, etc.).
+	 */
+	public function page_header($event)
+	{
+		$this->template->assign_var('RH_TOPICTAGS_TAGCLOUD_LINK', $this->helper->route('robertheim_topictags_controller'));
+	}
+
+	/**
 	 * Event: core.index_modify_page_title
 	 */
 	public function index_modify_page_title($event)
@@ -161,7 +171,7 @@ class main_listener implements EventSubscriberInterface
 			$all_tags = $this->tags_manager->split_valid_tags($tags);
 			$invalid_tags = $all_tags['invalid'];
 
-			if (sizeof($invalid_tags))
+		if (sizeof($invalid_tags))
 			{
 				$this->user->add_lang_ext('robertheim/topictags', 'topictags');
 				$data['error'][] = $this->user->lang('RH_TOPICTAGS_TAGS_INVALID', join(', ', $invalid_tags));
@@ -236,23 +246,11 @@ class main_listener implements EventSubscriberInterface
 		}
 	}
 
-	/**
-	 * Checks whether the mode indicates a new topic or not.
-	 * @param string $mode the mode.
-	 * @return true if mode == post (indicating a new topic), false otherwise
-	 */
 	private function is_new_topic($mode)
 	{
 		return $is_new_topic = $mode == 'post';
 	}
 
-	/**
-	 * Check whether the post data indicates that the first post of a topic is edited or not.
-	 *
-	 * @param string $mode the events data mode
-	 * @param array $post_data the event data
-	 * @return boolean true if it is a first post edit, false otherwise
-	 */
 	private function is_edit_first_post($mode, array $post_data)
 	{
 		$post_id = $topic_first_post_id = false;
@@ -267,28 +265,18 @@ class main_listener implements EventSubscriberInterface
 		return $mode == 'edit' && $post_id && $post_id == $topic_first_post_id;
 	}
 
-	/**
-	 * Calculates the template data for the topic
-	 *
-	 * @param int $topic_id the id of the topic
-	 * @param boolean $is_edit_first_post whether it is a first post edit or not
-	 * @return array the page data
-	 */
 	private function get_template_data_for_topic($topic_id, $is_edit_first_post)
 	{
 		$page_data = array();
 		$page_data['RH_TOPICTAGS_SHOW_FIELD'] = true;
 
-		// do we got some preview-data?
 		$tags = array();
 		if ($this->request->is_set_post('rh_topictags'))
 		{
-			// use data from post-request
 			$tags = $this->get_tags_from_post_request();
 		}
 		else if ($is_edit_first_post)
 		{
-			// use data from db
 			$tags = $this->tags_manager->get_assigned_tags($topic_id);
 		}
 
@@ -320,17 +308,6 @@ class main_listener implements EventSubscriberInterface
 		return $page_data;
 	}
 
-	/**
-	 * Event: core.viewforum_modify_topicrow
-	 *
-	 * Get and assign tags to topic-row-template -> RH_TOPICTAGS_TAGS.
-	 *
-	 * Note that we assign a string which includes the a-href-links already,
-	 * because we cannot assign sub-blocks before the outer-block with
-	 * assign_block_vars(...) and the event is before the actual assignment.
-	 *
-	 * @param $event
-	 */
 	public function viewforum_modify_topicrow($event)
 	{
 		if ($this->config[prefixes::CONFIG.'_display_tags_in_viewforum'])
@@ -344,16 +321,11 @@ class main_listener implements EventSubscriberInterface
 				$tags = $this->tags_manager->get_assigned_tags($topic_id);
 				if (!empty($tags))
 				{
-					// we cannot use assign_block_vars('topicrow.tags', ...) here, because the block 'topicrow' is not yet assigned
-					// add links
 					$this->assign_tags_to_template('rh_tags_tmp', $tags);
-					// small_tag.html might want to use our extension's css.
 					$this->template->assign_var('S_RH_TOPICTAGS_INCLUDE_CSS', true);
 					$rendered_tags = $this->template->assign_display('@robertheim_topictags/small_tag.html');
-					// remove temporary data
 					$this->template->destroy_block_vars('rh_tags_tmp');
 
-					// assign the template data
 					$data['topic_row']['RH_TOPICTAGS_TAGS'] = $rendered_tags;
 
 					$event->set_data($data);
@@ -362,12 +334,6 @@ class main_listener implements EventSubscriberInterface
 		}
 	}
 
-	/**
-	 * Assigns the given tags to the template block
-	 *
-	 * @param string $block_name the name of the template block
-	 * @param array $tags the tags to assign
-	 */
 	private function assign_tags_to_template($block_name, array $tags)
 	{
 		$mode = $this->tag_filter->get_search_mode();
@@ -415,13 +381,6 @@ class main_listener implements EventSubscriberInterface
 		}
 	}
 
-	/**
-	 * Event: core.viewtopic_assign_template_vars_before
-	 *
-	 * assign tags to topic-template and header-meta
-	 *
-	 * @param $event
-	 */
 	public function viewtopic_assign_template_vars_before($event)
 	{
 		$data = $event->get_data();
@@ -438,19 +397,11 @@ class main_listener implements EventSubscriberInterface
 					'RH_TOPICTAGS_SHOW'	=> true,
 					'META'				=> '<meta name="keywords" content="' . join(', ', $tags) . '">',
 				));
-				// tags might want to use our extension's css.
 				$this->template->assign_var('S_RH_TOPICTAGS_INCLUDE_CSS', true);
 			}
 		}
 	}
 
-	/**
-	 * Event: core.delete_topics_before_query
-	 *
-	 * prune tags when topic is deleted
-	 *
-	 * @param $event
-	 */
 	public function delete_topics_before_query($event)
 	{
 		$data = $event->get_data();
