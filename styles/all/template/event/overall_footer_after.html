@@ -1,25 +1,7 @@
 <!-- INCLUDE js_includes.html -->
 <p id="rh_topictags_search_link" class="rh_topictags_search_link" hidden>
-	<a href="{RH_TOPICTAGS_TAGCLOUD_LINK}">{L_RH_TOPICTAGS_SEARCH_FOR_TAGS}</a>
+	<a class="rh_tag" href="{RH_TOPICTAGS_TAGCLOUD_LINK}">{L_RH_TOPICTAGS_SEARCH_FOR_TAGS}</a>
 </p>
-<style>
-.rh_topictags_search_link {
-	margin: 0 0 1em 0;
-}
-.rh_topictags_search_link a {
-	display: inline-block;
-	padding: 0.3em 0.9em;
-	border-radius: 9999px;
-	border: 1px solid currentColor;
-	text-decoration: none;
-	font-weight: 400;
-}
-.rh_topictags_search_link a:hover {
-	background: currentColor;
-	color: inherit;
-	filter: invert(1);
-}
-</style>
 <script>
 (function () {
 	if (!document.body || document.body.className.indexOf('section-search') === -1) {
