@@ -36,12 +36,12 @@ $lang = array_merge($lang, array(
 
 	'RH_TOPICTAGS_TAGS_INVALID'			=> 'The following tags are invalid: %s',
 
-	'RH_TOPICTAGS_DISPLAYING_TOTAL_ALL'	=> 'Displaying all tags.',
+	'RH_TOPICTAGS_DISPLAYING_TOTAL_ALL'	=> 'Click a tag to search. Add more tags on the next page to narrow the results.',
 
 	'RH_TOPICTAGS_DISPLAYING_TOTAL'	=> array(
-		0 => 'There are no tags, yet',
-		1 => 'Displaying the top %d tag.',
-		2 => 'Displaying the top %d tags.',
+		0 => 'There are no tags yet.',
+		1 => 'Click a tag to search. Add more tags on the next page to narrow the results.',
+		2 => 'Click a tag to search. Add more tags on the next page to narrow the results.',
 	),
 
 	'RH_TOPICTAGS_TAG_SEARCH' => 'Tag-Search',
