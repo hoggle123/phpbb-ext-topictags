@@ -306,12 +306,14 @@ class tags_manager
 	/**
 	 * Assigns exactly the given valid tags to the topic (all other tags are removed from the topic and if a tag does not exist yet, it will be created).
 	 *
-	 * @param $topic_id
-	 * @param $valid_tags			array containing valid tag-names
+	 * @param int $topic_id
+	 * @param array $valid_tags array containing valid tag-names
+	 * @param int $user_id user who set these tags. 0 means the caller did not say (the auto-tagger uses 0).
 	 */
-	public function assign_tags_to_topic($topic_id, $valid_tags)
+	public function assign_tags_to_topic($topic_id, $valid_tags, $user_id = 0)
 	{
 		$topic_id = (int) $topic_id;
+		$user_id = (int) $user_id;
 
 		$this->remove_all_tags_from_topic($topic_id, false);
 		$this->create_missing_tags($valid_tags);
@@ -320,12 +322,14 @@ class tags_manager
 		$ids = $this->get_existing_tags($valid_tags, true);
 
 		// create topic_id <-> tag_id link in TOPICTAGS_TABLE
+		// user_id is who submitted this set. The auto-tagger leaves it at 0 so a later run can tell the rows apart.
 		$sql_ary = array();
 		foreach ($ids as $id)
 		{
 			$sql_ary[] = array(
 				'topic_id'	=> $topic_id,
-				'tag_id'	=> $id
+				'tag_id'	=> $id,
+				'user_id'	=> $user_id,
 			);
 		}
 		$this->db->sql_multi_insert($this->table_prefix . tables::TOPICTAGS, $sql_ary);
